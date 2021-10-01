@@ -1,20 +1,12 @@
 
 #include <iostream>
-#include "mains.h"
 
-
-int main()
+int edMain()
 {
-    //accountMain();
-
-    //circleMain();
-
-    //opMain();
-
-    //rationalMain();
-
-    //timeMain();
+    std::cout << "Radius=";
 
     auto x = getchar();
     x = getchar();
+
+    return 0;
 }

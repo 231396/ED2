@@ -18,6 +18,18 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="aluno.cpp" />
+    <ClCompile Include="hash_application.cpp" />
+    <ClCompile Include="linear_probing.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="aluno.h" />
+    <ClInclude Include="hash.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,27 +150,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="account.cpp" />
-    <ClCompile Include="account_main.cpp" />
-    <ClCompile Include="circle.cpp" />
-    <ClCompile Include="circle_main.cpp" />
-    <ClCompile Include="ED.cpp" />
-    <ClCompile Include="operacoes.cpp" />
-    <ClCompile Include="operacoes_main.cpp" />
-    <ClCompile Include="rational.cpp" />
-    <ClCompile Include="rational_main.cpp" />
-    <ClCompile Include="time.cpp" />
-    <ClCompile Include="time_main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="account.h" />
-    <ClInclude Include="circle.h" />
-    <ClInclude Include="mains.h" />
-    <ClInclude Include="operacoes.h" />
-    <ClInclude Include="rational.h" />
-    <ClInclude Include="time.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

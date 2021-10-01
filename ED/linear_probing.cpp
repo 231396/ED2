@@ -2,76 +2,97 @@
 #include <iostream>
 using namespace std;
 
-Hash::Hash(int max) {  
-  length = 0;
-  max_items = max;
-  structure = new Aluno[max_items];
+Hash::Hash(int max) {
+	length = 0;
+	max_items = max;
+	structure = new Aluno[max_items];
 }
 
-Hash::~Hash(){
-  delete [] structure;
+Hash::~Hash() {
+	delete[] structure;
 }
 
 bool Hash::isFull() const {
-  return (length == max_items);
+	return (length == max_items);
 }
 
 int Hash::getLength() const {
-  return length;
+	return length;
 }
 
-void Hash::retrieveItem(Aluno& aluno, bool& found) {
-  int startLoc = getHash(aluno);
-  bool moreToSearch = true; 
-  int location = startLoc;
-  do {
-    if (structure[location].getRa() == aluno.getRa() ||
-	structure[location].getRa() == -1)
-      moreToSearch = false;
-    else
-      location = (location + 1) % max_items;
-  } while (location != startLoc && moreToSearch);
-  
-  found = (structure[location].getRa() == aluno.getRa() );   
-  if (found) { 
-    aluno = structure[location];
-  }
+int Hash::getHash(Aluno aluno) {
+	return aluno.getRa() % max_items;
 }
 
-void Hash::insertItem(Aluno aluno) {
-  int location;
-  location = getHash(aluno);
-  while (structure[location].getRa() > 0)
-    location = (location + 1) % max_items;
-  structure[location] = aluno;
-  length++;
+int Hash::getHash2(Aluno aluno) {
+	int seven = max_items - 4;
+	return seven - aluno.getRa() % seven;
+}
+
+int Hash::searchAlunoIndex(Aluno aluno) {
+	int startIndex = getHash(aluno);
+	int subIndex = getHash2(aluno);
+
+	int index = startIndex;
+
+	int item = structure[index].getRa();
+	if (item < 0 || item == aluno.getRa())
+		return index;
+
+	int i = 1;
+	do {
+		item = structure[index].getRa();
+		if (item < 0 || item == aluno.getRa())
+			break;
+		else
+			index = (startIndex + i++ * subIndex) % max_items;
+	} while (startIndex != index);
+
+	return index;
+}
+
+
+bool Hash::retrieveItem(Aluno& aluno) {
+	int index = searchAlunoIndex(aluno);
+	if (structure[index].getRa() == aluno.getRa()) {
+		aluno = structure[index];
+		return true;
+	}
+	return false;
 }
 
 void Hash::deleteItem(Aluno aluno) {
-  int startLoc = getHash(aluno);
-  bool moreToSearch = true; 
-  int location = startLoc;
-  do {
-    if (structure[location].getRa() == aluno.getRa() ||
-	structure[location].getRa() == -1)
-      moreToSearch = false;
-    else
-      location = (location + 1) % max_items;
-  } while (location != startLoc && moreToSearch);
+	int index = searchAlunoIndex(aluno);
+	if (structure[index].getRa() == aluno.getRa()) {
+		structure[index] = Aluno(-2);
+		length--;
+	}
+}
 
-  if (structure[location].getRa() == aluno.getRa()) {       
-    structure[location] = Aluno(-2,"");
-    length--;
-  }
+void Hash::insertItem(Aluno aluno) {
+	int startIndex = getHash(aluno);
+	int subIndex = getHash2(aluno);
+
+	int index = startIndex;
+
+	if (structure[index].getRa() >= 0) {
+		int i = 1;
+		do {
+			int item = structure[index].getRa();
+			if (item < 0 || item == aluno.getRa())
+				break;
+			else
+				index = (startIndex + i++ * subIndex) % max_items;
+		} while (startIndex != index);
+	}
+
+	structure[index] = aluno;
+	length++;
 }
 
 void Hash::print() {
-  for (int i = 0; i < max_items; i++) {
-    cout << i <<":"<< structure[i].getRa()<<", "<<structure[i].getNome()<<endl;
-  }
-}
-
-int Hash::getHash(Aluno aluno){
-  return aluno.getRa() % max_items;
+	for (int i = 0; i < max_items; i++) {
+		cout << i << ":" << structure[i].getRa() << ", " << structure[i].getNome() << endl;
+	}
 }
 

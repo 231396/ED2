@@ -1,16 +1,22 @@
 #include "aluno.h"
 
-Aluno::Aluno(){
-  this->ra   = -1;
-  this->nome = "";
-};  
-Aluno::Aluno(int ra, std::string nome){
-  this->ra    = ra;
-  this->nome  = nome;
+using std::string;
+
+Aluno::Aluno() {
+	this->ra = -1;
+	this->nome = "";
+};
+Aluno::Aluno(int ra) {
+	this->ra = ra;
+	this->nome = "";
+};
+Aluno::Aluno(int ra, string nome) {
+	this->ra = ra;
+	this->nome = nome;
 }
 string Aluno::getNome() const {
-  return nome;
+	return nome;
 }
-int Aluno::getRa() const{
-  return ra;
+int Aluno::getRa() const {
+	return ra;
 }
