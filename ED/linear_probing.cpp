@@ -36,17 +36,16 @@ int Hash::searchAlunoIndex(Aluno aluno) {
 	int index = startIndex;
 
 	int item = structure[index].getRa();
-	if (item < 0 || item == aluno.getRa())
-		return index;
-
-	int i = 1;
-	do {
-		item = structure[index].getRa();
-		if (item < 0 || item == aluno.getRa())
-			break;
-		else
-			index = (startIndex + i++ * subIndex) % max_items;
-	} while (startIndex != index);
+	if (item >= 0 && item != aluno.getRa()) {
+		int i = 1;
+		do {
+			item = structure[index].getRa();
+			if (item < 0 || item == aluno.getRa())
+				break;
+			else
+				index = (startIndex + i++ * subIndex) % max_items;
+		} while (startIndex != index);
+	}
 
 	return index;
 }

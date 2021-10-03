@@ -3,7 +3,7 @@ using namespace std;
 
 class Aluno {
 private:
-	int         ra;
+	int ra;
 	std::string nome;
 public:
 	Aluno();
