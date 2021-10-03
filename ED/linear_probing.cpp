@@ -70,24 +70,11 @@ void Hash::deleteItem(Aluno aluno) {
 }
 
 void Hash::insertItem(Aluno aluno) {
-	int startIndex = getHash(aluno);
-	int subIndex = getHash2(aluno);
-
-	int index = startIndex;
-
-	if (structure[index].getRa() >= 0) {
-		int i = 1;
-		do {
-			int item = structure[index].getRa();
-			if (item < 0 || item == aluno.getRa())
-				break;
-			else
-				index = (startIndex + i++ * subIndex) % max_items;
-		} while (startIndex != index);
+	int index = searchAlunoIndex(aluno);
+	if (structure[index].getRa() < 0) {
+		structure[index] = aluno;
+		length++;
 	}
-
-	structure[index] = aluno;
-	length++;
 }
 
 void Hash::print() {

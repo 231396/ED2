@@ -7,8 +7,9 @@ int main() {
 	Hash myHash = Hash(11);
 	int ras[] = { 41, 48, 19, 12, 30 };
 	string nomes[] = {
-		"Andre", "Bainha", "Cebolinha",
-		"Darius", "Elias"
+		"Pedro", "Raul", "Paulo",
+		"Carlos", "Lucas", "Maria",
+		"Samanta" 
 	};
 
 	for (int i = 0; i < 5; i++) {
