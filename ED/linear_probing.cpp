@@ -31,12 +31,12 @@ int Hash::getHash2(Aluno aluno) {
 
 int Hash::searchAlunoIndex(Aluno aluno) {
 	int startIndex = getHash(aluno);
-	int subIndex = getHash2(aluno);
 
 	int index = startIndex;
 
 	int item = structure[index].getRa();
 	if (item >= 0 && item != aluno.getRa()) {
+		int subIndex = getHash2(aluno);
 		int i = 1;
 		do {
 			item = structure[index].getRa();
