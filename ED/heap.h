@@ -34,7 +34,6 @@ public:
 	  depende disso, comece pelo último elemento não folha e itere até a
 	  raiz.
 	 */
-
 	Heap(int MAX_ITEMS, Account* ARRAY_ACCOUNT, int NUM_IN_ARRAY_ACCOUNT);
 
 	/*
