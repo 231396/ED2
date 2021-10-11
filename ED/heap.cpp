@@ -68,36 +68,40 @@ bool Heap::isEmpty() const
 	return length == 0;
 }
 
+// parent: (index - 1)/2
+// left child: (2 * i) + 1
+// right child: (2 * i) + 2
+
+/// <param name="index">Current Index</param>
+/// <param name="bottom">Last Index</param>
 void Heap::descida(int index, int bottom)
 {
-	auto arr = cadastro;
+	int leftChild = 2 * index + 1;
+	int rightChild = 2 * index + 2;
 
-	int largest = index; // Initialize largest as root
-	int l = 2 * index + 1; // left = 2*i + 1
-	int r = 2 * index + 2; // right = 2*i + 2
+	int smallest = index;
+	if (leftChild <= bottom && cadastro[index]->getBalance() > cadastro[leftChild]->getBalance())
+		smallest = leftChild;
+	if (rightChild <= bottom && cadastro[index]->getBalance() > cadastro[smallest]->getBalance())
+		smallest = rightChild;
 
-	// If left child is larger than root
-	if (l < bottom && arr[l] > arr[largest])
-		largest = l;
-
-	// If right child is larger than largest so far
-	if (r < bottom && arr[r] > arr[largest])
-		largest = r;
-
-	// If largest is not root
-	if (largest != index) {
-		swap(arr[index], arr[largest]);
-
-		// Recursively heapify the affected sub-tree
-		descida(bottom, largest);
+	if (smallest != index) {
+		swap(cadastro[index], cadastro[smallest]);
+		subida(smallest, bottom);
 	}
 }
 
+/// <param name="index">Current Index</param>
+/// <param name="bottom">First Index</param>
 void Heap::subida(int index, int root)
 {
-	int parent = (index - 1) / 2;
-	if (index && cadastro[parent] < cadastro[index])
-	{
+	if (index == root)
+		return;
+
+	int parent = (index-1) / 2;
+	int biggest = cadastro[index]->getBalance() > cadastro[parent]->getBalance() ? index : parent;
+
+	if (biggest == index) {
 		swap(cadastro[index], cadastro[parent]);
 		subida(parent, root);
 	}
