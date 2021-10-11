@@ -79,15 +79,16 @@ void Heap::descida(int index, int bottom)
 	int leftChild = 2 * index + 1;
 	int rightChild = 2 * index + 2;
 
-	int smallest = index;
-	if (leftChild <= bottom && cadastro[index]->getBalance() > cadastro[leftChild]->getBalance())
-		smallest = leftChild;
-	if (rightChild <= bottom && cadastro[index]->getBalance() > cadastro[smallest]->getBalance())
-		smallest = rightChild;
+	int swapper = index;
+	if (leftChild <= bottom)
+		if (rightChild <= bottom && cadastro[leftChild]->getBalance() < cadastro[rightChild]->getBalance())
+			swapper = rightChild;
+		else
+			swapper = leftChild;
 
-	if (smallest != index) {
-		swap(cadastro[index], cadastro[smallest]);
-		subida(smallest, bottom);
+	if (swapper != index) {
+		swap(cadastro[index], cadastro[swapper]);
+		subida(swapper, bottom);
 	}
 }
 
@@ -95,13 +96,12 @@ void Heap::descida(int index, int bottom)
 /// <param name="bottom">First Index</param>
 void Heap::subida(int index, int root)
 {
-	if (index == root)
+	if (index <= root)
 		return;
 
 	int parent = (index-1) / 2;
-	int biggest = cadastro[index]->getBalance() > cadastro[parent]->getBalance() ? index : parent;
 
-	if (biggest == index) {
+	if (cadastro[index]->getBalance() > cadastro[parent]->getBalance()) {
 		swap(cadastro[index], cadastro[parent]);
 		subida(parent, root);
 	}
