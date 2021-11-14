@@ -7,8 +7,8 @@ typedef Vertex ItemType;
 
 struct NodeType
 {
-  ItemType info;
-  NodeType* next;
+	ItemType info;
+	NodeType* next;
 };
 
 #endif
