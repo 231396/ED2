@@ -13,63 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\mains">
-      <UniqueIdentifier>{cfaf8e0a-b5ec-4c84-9d35-a4539c91fa77}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ED.cpp">
+    <ClCompile Include="graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="account.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="account_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="circle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="circle_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="operacoes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="operacoes_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rational.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rational_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="time_main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="account.h">
+    <ClInclude Include="graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="circle.h">
+    <ClInclude Include="linked_queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="operacoes.h">
+    <ClInclude Include="vertex.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rational.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mains.h">
-      <Filter>Header Files\mains</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

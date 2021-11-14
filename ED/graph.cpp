@@ -39,9 +39,7 @@ void Graph::addVertex(Vertex vertex) {
 	vertices[numVertices] = vertex;
 	numVertices++;
 }
-void Graph::addEdge(Vertex fromVertex,
-	Vertex toVertex,
-	int weight) {
+void Graph::addEdge(Vertex fromVertex, Vertex toVertex, int weight) {
 	int row = getIndex(fromVertex);
 	int col = getIndex(toVertex);
 
@@ -50,32 +48,32 @@ void Graph::addEdge(Vertex fromVertex,
 	edges[col][row] = weight;
 }
 
-int Graph::getWeight(Vertex fromVertex,
-	Vertex toVertex) {
+int Graph::getWeight(Vertex fromVertex, Vertex toVertex) {
 	int row = getIndex(fromVertex);
 	int col = getIndex(toVertex);
 	return edges[row][col];
 }
 
-void Graph::getAdjacents(Vertex vertex,
-	Queue& adjVertices) {
+void Graph::getAdjacents(Vertex vertex, LinkedQueue<Vertex>& adjVertices) {
 	int fromIndex;
 	int toIndex;
 	fromIndex = getIndex(vertex);
 	for (toIndex = 0; toIndex < numVertices; toIndex++)
 		if (edges[fromIndex][toIndex] != NULL_EDGE)
 			// Uma cópia do elemento é adicionada no array.
-			adjVertices.enqueue(vertices[toIndex]);
+			adjVertices.enqueue(&vertices[toIndex]);
 }
 
 void Graph::clearMarks() {
 	for (int i = 0; i < numVertices; i++)
 		marks[i] = false;
 }
+
 void Graph::markVertex(Vertex vertex) {
 	int index = getIndex(vertex);
 	marks[index] = true;
 }
+
 bool Graph::isMarked(Vertex vertex) {
 	int index = getIndex(vertex);
 	return marks[index];
@@ -83,9 +81,8 @@ bool Graph::isMarked(Vertex vertex) {
 
 void Graph::printMatrix() {
 	for (int i = 0; i < numVertices; i++) {
-		for (int j = 0; j < numVertices; j++) {
+		for (int j = 0; j < numVertices; j++)
 			std::cout << edges[i][j] << ",";
-		}
 		std::cout << std::endl;
 	}
 }

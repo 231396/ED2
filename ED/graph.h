@@ -1,7 +1,7 @@
-#ifndef GRAPH_H 
-#define GRAPH_H 
+#pragma once
 
-#include "queue.h"
+#include "linked_queue.h"
+#include "vertex.h"
 
 class Graph {
 	private:
@@ -12,6 +12,7 @@ class Graph {
 		int** edges; // Matriz de adjacências
 		bool* marks; // marks[i] marca se vertices[i] foi usado.
 		int getIndex(Vertex);
+
 	public:
 		Graph(int max = 50, int null = 0);  // construtor
 		~Graph(); // destrutor
@@ -20,11 +21,10 @@ class Graph {
 		void addEdge(Vertex, Vertex, int);
 
 		int getWeight(Vertex, Vertex);
-		void getAdjacents(Vertex, Queue&);
+		void getAdjacents(Vertex, LinkedQueue<Vertex>&);
 		void clearMarks();
 		void markVertex(Vertex);
 		bool isMarked(Vertex);
 		void printMatrix();
 };
 
-#endif

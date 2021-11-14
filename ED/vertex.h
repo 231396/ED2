@@ -1,9 +1,10 @@
-#ifndef VERTEX_H 
-#define VERTEX_H 
+#pragma once
 
 #include <iostream>
 
 class Vertex {
+	private:
+		std::string nome;
 	public:
 		Vertex() {
 			this->nome = "";
@@ -14,8 +15,4 @@ class Vertex {
 		std::string getNome() const {
 			return nome;
 		}
-	private:
-		std::string nome;
 };
-
-#endif

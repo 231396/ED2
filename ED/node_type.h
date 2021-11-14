@@ -3,11 +3,9 @@
 
 #include "vertex.h"
 
-typedef Vertex ItemType;
-
 struct NodeType
 {
-	ItemType info;
+	Vertex info;
 	NodeType* next;
 };
 

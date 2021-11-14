@@ -139,25 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="account.cpp" />
-    <ClCompile Include="account_main.cpp" />
-    <ClCompile Include="circle.cpp" />
-    <ClCompile Include="circle_main.cpp" />
-    <ClCompile Include="ED.cpp" />
-    <ClCompile Include="operacoes.cpp" />
-    <ClCompile Include="operacoes_main.cpp" />
-    <ClCompile Include="rational.cpp" />
-    <ClCompile Include="rational_main.cpp" />
-    <ClCompile Include="time.cpp" />
-    <ClCompile Include="time_main.cpp" />
+    <ClCompile Include="graph.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="account.h" />
-    <ClInclude Include="circle.h" />
-    <ClInclude Include="mains.h" />
-    <ClInclude Include="operacoes.h" />
-    <ClInclude Include="rational.h" />
-    <ClInclude Include="time.h" />
+    <ClInclude Include="graph.h" />
+    <ClInclude Include="linked_queue.h" />
+    <ClInclude Include="vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
