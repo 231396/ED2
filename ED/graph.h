@@ -1,30 +1,112 @@
 #pragma once
 
+#include <iostream>
+
 #include "linked_queue.h"
 #include "vertex.h"
 
 class Graph {
-	private:
-		int NULL_EDGE; // Constante para aresta nula.
-		int maxVertices; // Número máximo de vértices.  
-		int numVertices; // Número de vértices adicionados.
-		Vertex* vertices; // Array com todos os vértices.
-		int** edges; // Matriz de adjacências
-		bool* marks; // marks[i] marca se vertices[i] foi usado.
-		int getIndex(Vertex);
 
-	public:
-		Graph(int max = 50, int null = 0);  // construtor
-		~Graph(); // destrutor
+private:
+	bool directed;
+	int NULL_EDGE; // Constante para aresta nula.
+	int maxVertices; // Número máximo de vértices.  
+	int currentVertices; // Número de vértices existentes.
+	Vertex** vertices;
 
-		void addVertex(Vertex);
-		void addEdge(Vertex, Vertex, int);
+	int getIndex(Vertex& vertex) {
+		int index = 0;
+		for (int i = 0; i < currentVertices; i++)
+			if (vertex == *vertices[i])
+				return i;
+		return -1;
+	}
 
-		int getWeight(Vertex, Vertex);
-		void getAdjacents(Vertex, LinkedQueue<Vertex>&);
-		void clearMarks();
-		void markVertex(Vertex);
-		bool isMarked(Vertex);
-		void printMatrix();
+	bool vertexExist(Vertex& vertex) {
+		return getIndex(vertex) >= 0;
+	}
+	bool vertexExist(Vertex& from, Vertex& to) {
+		return vertexExist(from) && vertexExist(to);
+	}
+
+	Edge* getEdge(Vertex& from, Vertex& to) {
+		auto findEdge = [to](Edge& edge) -> bool {
+			return edge.getVertex() == to;
+		};
+		return from.getEdges()->find(findEdge);
+	}
+
+public:
+	Graph(bool isDirected = false, int max = 50, int null_edge = 0) {
+		directed = isDirected;
+		NULL_EDGE = null_edge;
+		currentVertices = 0;
+		maxVertices = max;
+		vertices = new Vertex*[maxVertices];
+	}
+
+	~Graph() {
+		//for (int i = 0; i < currentVertices; i++) {}
+		delete[] vertices;
+	}
+
+	void addVertex(Vertex& vertex) {
+		if (!vertexExist(vertex)) {
+			vertices[currentVertices] = &vertex;
+			currentVertices++;
+		}
+	}
+
+	void addEdge(Vertex& from, Vertex& to, int weight = 1) {
+		if (!vertexExist(from, to))
+			return;
+		from.getEdges()->enqueue(*new Edge(to, weight));
+		if (!directed && from != to)
+			to.getEdges()->enqueue(*new Edge(from, weight));
+	}
+
+	int getWeight(Vertex& from, Vertex& to) {
+		if (!vertexExist(from, to))
+			return NULL_EDGE;
+		auto edge = getEdge(from, to);
+		if (edge == NULL)
+			return NULL_EDGE;
+		return edge->getWeight();
+	}
+
+	EdgeQueue getAdjacents(Vertex& vertex) {
+		if (!vertexExist(vertex))
+			return EdgeQueue();
+		return *vertex.getEdges();
+	}
+
+	void clearMarks() {
+		for (int i = 0; i < currentVertices; i++)
+			(*vertices[i]).mark = false;
+	}
+
+	void markVertex(Vertex& vertex) {
+		int index = getIndex(vertex);
+		(*vertices[index]).mark = true;
+	}
+
+	bool isMarked(Vertex& vertex) {
+		int index = getIndex(vertex);
+		return (*vertices[index]).mark;
+	}
+
+	void print() {
+		auto printEdge = [](Edge& edge) -> void {
+			std::cout << edge.toString() << "(" << edge.getWeight() << ")" << ", ";
+		};
+		for (int i = 0; i < currentVertices; i++) {
+			std::cout << (*vertices[i]).getName() << " : ";
+			(*vertices[i]).getEdges()->forEach(printEdge);
+			//std::cout << (*vertices[i]).getEdges()->count();
+			std::cout << std::endl;
+		}
+	}
+
+
 };
 
