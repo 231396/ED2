@@ -9,6 +9,8 @@ using std::endl;
 int main() {
 	Graph graph = Graph(true);
 
+	//FAKE
+
 	//Vertex a, b, c, d;
 	//graph.addVertex(a = Vertex("A"));
 	//graph.addVertex(b = Vertex("B"));
@@ -17,7 +19,8 @@ int main() {
 	//graph.addEdge(a, b, 1);
 	//graph.addEdge(b, b, 2);
 	//graph.addEdge(b, c, 3);
-	//graph.print();
+
+	//REAL
 
 	Vertex wi, pr, ar, ro, wa, ne, ass, hu, kn, ni, so, my, tr, pa, sa;
 	graph.addVertex(wi = Vertex("Wizard"));
@@ -63,7 +66,6 @@ int main() {
 	graph.addEdge(ni, sa);
 
 	graph.print();
-
 	auto x = getchar();
 }
 
