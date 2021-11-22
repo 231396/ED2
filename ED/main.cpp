@@ -29,13 +29,11 @@ int main() {
 	//graph.addVertex(ar = Vertex("Archer"));
 	//graph.addVertex(ro = Vertex("Rogue"));
 	//graph.addVertex(wa = Vertex("Warrior"));
-
 	//graph.addVertex(ne = Vertex("Necromancer"));
 	//graph.addVertex(ass = Vertex("Assasin"));
 	//graph.addVertex(hu = Vertex("Huntress"));
 	//graph.addVertex(kn = Vertex("Knight"));
 	//graph.addVertex(ni = Vertex("Ninja"));
-
 	//graph.addVertex(so = Vertex("Sorcerer"));
 	//graph.addVertex(my = Vertex("Mystic"));
 	//graph.addVertex(tr = Vertex("Trickster"));
@@ -66,15 +64,18 @@ int main() {
 	//graph.addEdge(kn, sa);
 	//graph.addEdge(ni, sa);
 
-	//int len = graph.countVertices();
-	//float* pageRanks = new float[len];
+	int len = graph.countVertices();
+	float* pageRanks = new float[len];
 
-	//graph.generatePageRanks(pageRanks);
+	graph.generatePageRanks(pageRanks, 0.85f, 1);
+	float sum = 0;
+	for (int i = 0; i < len; i++) {
+		sum += pageRanks[i];
+		cout << pageRanks[i] << ", ";
+	}
+	cout << endl << sum << endl;
 
-	//for (int i = 0; i < len; i++)
-	//	cout << pageRanks[i] << " , ";
-
-	graph.print();
+	//graph.print();
 
 	auto x = getchar();
 }
