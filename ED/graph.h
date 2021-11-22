@@ -50,6 +50,10 @@ public:
 		delete[] vertices;
 	}
 
+	int countVertices() {
+		return currentVertices;
+	}
+
 	void addVertex(Vertex& vertex) {
 		if (!vertexExist(vertex)) {
 			vertices[currentVertices] = &vertex;
@@ -82,17 +86,17 @@ public:
 
 	void clearMarks() {
 		for (int i = 0; i < currentVertices; i++)
-			(*vertices[i]).mark = false;
+			vertices[i]->mark = false;
 	}
 
 	void markVertex(Vertex& vertex) {
 		int index = getIndex(vertex);
-		(*vertices[index]).mark = true;
+		vertices[index]->mark = true;
 	}
 
 	bool isMarked(Vertex& vertex) {
 		int index = getIndex(vertex);
-		return (*vertices[index]).mark;
+		return vertices[index]->mark;
 	}
 
 	void print() {
@@ -100,13 +104,38 @@ public:
 			std::cout << edge.toString() << "(" << edge.getWeight() << ")" << ", ";
 		};
 		for (int i = 0; i < currentVertices; i++) {
-			std::cout << (*vertices[i]).getName() << " : ";
-			(*vertices[i]).getEdges()->forEach(printEdge);
-			//std::cout << (*vertices[i]).getEdges()->count();
+			std::cout << vertices[i]->getName() << " : ";
+			getAdjacents(*vertices[i]).forEach(printEdge);
 			std::cout << std::endl;
 		}
 	}
 
+	void generatePageRanks(float* pageRank, float dFactor = 1.0f, int iterations = 52) {
+
+		int* outputDegree = new int[currentVertices];
+		float* pr_previous = new float[currentVertices];
+		for (int i = 0; i < currentVertices; i++) {
+			outputDegree[i] = getAdjacents(*vertices[i]).count();
+			pr_previous[i] = 1.0f / currentVertices;
+		}
+
+		for (int iteract = 0; iteract < iterations; iteract++) {
+			for (int i = 0; i < currentVertices; i++) {
+				pageRank[i] = 0.0f;
+
+				for (int j = 0; j < currentVertices; j++)
+					pageRank[i] = pr_previous[j] / outputDegree[j];
+
+				pageRank[i] = (1 - dFactor) / currentVertices + dFactor * pageRank[i];
+			}
+
+			for (int i = 0; i < currentVertices; i++)
+				pr_previous[i] = pageRank[i];
+		}
+
+		delete[] pr_previous;
+		delete[] outputDegree;
+	}
 
 };
 
