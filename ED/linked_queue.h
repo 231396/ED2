@@ -64,8 +64,8 @@ public:
 		return (front == NULL);
 	}
 
-	T* peek() {
-		return front;
+	T peek() {
+		return *front;
 	}
 
 	void enqueue(T& newItem)

@@ -64,10 +64,10 @@ int main() {
 	//graph.addEdge(kn, sa);
 	//graph.addEdge(ni, sa);
 
-	int len = graph.countVertices();
+	int len = graph.numberOfVertices();
 	float* pageRanks = new float[len];
 
-	graph.generatePageRanks(pageRanks, 0.85f, 1);
+	graph.generatePageRanks(pageRanks, 0.85f, 100);
 	float sum = 0;
 	for (int i = 0; i < len; i++) {
 		sum += pageRanks[i];

@@ -15,8 +15,13 @@ private:
 
 	struct GraphItem {
 		bool mark;
-		LinkedQueue<Edge> edges;
 		Vertex* vertex;
+		LinkedQueue<Edge> edges;
+		GraphItem() {
+			mark = false;
+			vertex = NULL;
+			edges = LinkedQueue<Edge>();
+		}
 	};
 	GraphItem* items;
 
@@ -38,13 +43,6 @@ public:
 		return currentVertices;
 	}
 
-	Edge* findEdge(Vertex& from, Vertex& to, int itemIndex) {
-		auto findFunc = [from, to](Edge& edge) -> bool {
-			return edge.getFrom() == from && edge.getTo() == to;
-		};
-		return items[itemIndex].edges.find(findFunc);
-	}
-
 	int indexOf(Vertex& vertex) {
 		int index = 0;
 		for (int i = 0; i < currentVertices; i++)
@@ -52,12 +50,12 @@ public:
 				return i;
 		return -1;
 	}
-	int indexOfEdge(Vertex& from, Vertex& to) {
-		int index = 0;
-		for (int i = 0; i < currentVertices; i++)
-			if (findEdge(from, to, i) != NULL)
-				return i;
-		return -1;
+	Edge* findEdge(Vertex& from, Vertex& to) {
+		int fIndex = indexOf(from);
+		if (fIndex < 0)
+			return NULL;
+		auto findFunc = [to](Edge& edge) -> bool { return edge.getTo() == to; };
+		return items[fIndex].edges.find(findFunc);
 	}
 
 	void addVertex(Vertex& vertex) {
@@ -70,22 +68,16 @@ public:
 	void addEdge(Vertex& from, Vertex& to, int weight = 1) {
 		int fIndex = indexOf(from);
 		int tIndex = indexOf(to);
-
 		if (fIndex < 0 || tIndex < 0)
 			return;
 
-		Edge newEdge = Edge(&from, &to, weight);
-		items[fIndex].edges.enqueue(newEdge);
-		if (!directed && from != to) {
-			newEdge = Edge(&to, &from, weight);
-			items[fIndex].edges.enqueue(newEdge);
-		}
+		items[fIndex].edges.enqueue(*new Edge(&to, weight));
+		if (!directed && fIndex != tIndex)
+			items[tIndex].edges.enqueue(*new Edge(&from, weight));
 	}
 
 	int getWeight(Vertex& from, Vertex& to) {
-		Edge* edge;
-		for (int i = 0; i < currentVertices; i++)
-			edge = findEdge(from, to, i);
+		Edge* edge = findEdge(from, to);
 		if (edge == NULL)
 			return NULL_EDGE;
 		return edge->getWeight();
@@ -118,7 +110,6 @@ public:
 
 	void print() {
 		auto printEdge = [](Edge& edge) -> void {
-			std::cout << edge.getFrom().() << "(" << edge.getWeight() << ")" << ", ";
 			std::cout << edge.getTo().getName() << "(" << edge.getWeight() << ")" << ", ";
 		};
 		for (int i = 0; i < currentVertices; i++) {
@@ -128,42 +119,41 @@ public:
 		}
 	}
 
+	float* generatePageRanks(float dFactor, int iterations = 52) {
+		float* pageRanks = new float[currentVertices];
+		generatePageRanks(pageRanks, 0.85f, 1);
+		return pageRanks;
+	}
+
 	void generatePageRanks(float* pageRank, float dFactor, int iterations = 52) {
 
 		int* outputDegree = new int[currentVertices];
 		float* pr_previous = new float[currentVertices];
 		for (int i = 0; i < currentVertices; i++) {
-			outputDegree[i] = vertices[i]->getEdges()->count();
+			outputDegree[i] = items[i].edges.count();
 			pr_previous[i] = 1.0f / currentVertices;
 		}
 
-		auto f = [pr_previous, outputDegree](Edge& edge, float last, int count) -> float {
-			return last + pr_previous[count] / outputDegree[count];
+		int fromIndex;
+		auto f2 = [this, &fromIndex, pageRank, pr_previous, outputDegree](Edge& edge) -> void {
+			int toIndex = indexOf(edge.getTo());
+			pageRank[toIndex] += pr_previous[fromIndex] / outputDegree[fromIndex];
 		};
-
-		auto f2 = [pageRank, pr_previous, outputDegree](Edge& edge, int count) -> void {
-
-			edge.getVertex();
-			return last + pr_previous[count] / outputDegree[count];
-		};
-
 
 		for (int iteract = 0; iteract < iterations; iteract++) {
-			//for (int i = 0; i < currentVertices; i++) {
-				//float sum = vertices[i]->getEdges()->reduce<float>(f);
-			//	for (int j = 0; j < currentVertices; j++)
-			//		if(existEdge(*vertices[i], *vertices[j]))
-			//			pageRank[i] += pr_previous[j] / outputDegree[j];
-			//	pageRank[i] = (1 - dFactor) / currentVertices + dFactor * pageRank[i];
-			//}
-
-			for (int i = 0; i < currentVertices; i++) {
-				vertices[i]->getEdges()->forEach(f2);
-			}
-
 
 			for (int i = 0; i < currentVertices; i++)
+				pageRank[i] = 0;
+
+			for (int i = 0; i < currentVertices; i++) {
+				fromIndex = i;
+				items[i].edges.forEach(f2);
+			}
+
+			for (int i = 0; i < currentVertices; i++) {
+				pageRank[i] = (1.0f - dFactor) / currentVertices + dFactor * pageRank[i];
 				pr_previous[i] = pageRank[i];
+			}
 		}
 
 		delete[] pr_previous;
