@@ -64,14 +64,13 @@ int main() {
 	//graph.addEdge(kn, sa);
 	//graph.addEdge(ni, sa);
 
-	int len = graph.numberOfVertices();
-	float* pageRanks = new float[len];
+	float* pageRanks = graph.generatePageRanks(0.85f, 52);
 
-	graph.generatePageRanks(pageRanks, 0.85f, 100);
 	float sum = 0;
-	for (int i = 0; i < len; i++) {
+	for (int i = 0; i < graph.numberOfVertices(); i++) {
+		auto item = graph.getItem(i);
+		cout << item.vertex->getName() << ": " << pageRanks[i] << "  " << (int)(pageRanks[i] * 100) << "%" << endl;
 		sum += pageRanks[i];
-		cout << pageRanks[i] << ", ";
 	}
 	cout << endl << sum << endl;
 

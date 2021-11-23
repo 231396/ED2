@@ -58,6 +58,10 @@ public:
 		return items[fIndex].edges.find(findFunc);
 	}
 
+	GraphItem getItem(int index) {
+		return items[index];
+	}
+
 	void addVertex(Vertex& vertex) {
 		if (indexOf(vertex) < 0) {
 			items[currentVertices].vertex = &vertex;
@@ -120,18 +124,19 @@ public:
 	}
 
 	float* generatePageRanks(float dFactor, int iterations = 52) {
-		float* pageRanks = new float[currentVertices];
-		generatePageRanks(pageRanks, 0.85f, 1);
-		return pageRanks;
+		float* pageRank = new float[currentVertices];
+		generatePageRanks(pageRank, dFactor, iterations);
+		return pageRank;
 	}
 
 	void generatePageRanks(float* pageRank, float dFactor, int iterations = 52) {
 
 		int* outputDegree = new int[currentVertices];
 		float* pr_previous = new float[currentVertices];
+		float onePart = 1.0f / currentVertices;
 		for (int i = 0; i < currentVertices; i++) {
 			outputDegree[i] = items[i].edges.count();
-			pr_previous[i] = 1.0f / currentVertices;
+			pr_previous[i] = onePart;
 		}
 
 		int fromIndex;
@@ -140,6 +145,7 @@ public:
 			pageRank[toIndex] += pr_previous[fromIndex] / outputDegree[fromIndex];
 		};
 
+		onePart -= dFactor / currentVertices;
 		for (int iteract = 0; iteract < iterations; iteract++) {
 
 			for (int i = 0; i < currentVertices; i++)
@@ -151,7 +157,7 @@ public:
 			}
 
 			for (int i = 0; i < currentVertices; i++) {
-				pageRank[i] = (1.0f - dFactor) / currentVertices + dFactor * pageRank[i];
+				pageRank[i] = onePart + dFactor * pageRank[i];
 				pr_previous[i] = pageRank[i];
 			}
 		}

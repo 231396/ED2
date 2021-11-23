@@ -123,7 +123,7 @@ public:
 		}
 	}
 
-	void forEach(std::function<void(T&,int)> func)
+	void forEach(std::function<void(T&, int count)> func)
 	{
 		int count = 0;
 		QueueNode* tempPtr = front;
@@ -134,7 +134,7 @@ public:
 	}
 
 	template<class R>
-	R reduce(std::function<R(T&, R, int)> func) 
+	R reduce(std::function<R(T&, R, int count)> func)
 	{
 		int count = 0;
 		R accumulator = NULL;
