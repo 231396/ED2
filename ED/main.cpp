@@ -99,8 +99,8 @@ void case3() {
 
 int main() {
 
-	case1();
-	case2();
+	//case1();
+	//case2();
 	case3();
 
 	auto x = getchar();
