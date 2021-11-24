@@ -69,14 +69,14 @@ public:
 		}
 	}
 
-	void addEdge(Vertex& from, Vertex& to, int weight = 1) {
+	void addEdge(Vertex& from, Vertex& to, int weight = 1, bool both = false) {
 		int fIndex = indexOf(from);
 		int tIndex = indexOf(to);
 		if (fIndex < 0 || tIndex < 0)
 			return;
 
 		items[fIndex].edges.enqueue(*new Edge(&to, weight));
-		if (!directed && fIndex != tIndex)
+		if (both || (!directed && fIndex != tIndex))
 			items[tIndex].edges.enqueue(*new Edge(&from, weight));
 	}
 
@@ -117,7 +117,7 @@ public:
 			std::cout << edge.getTo().getName() << "(" << edge.getWeight() << ")" << ", ";
 		};
 		for (int i = 0; i < currentVertices; i++) {
-			std::cout << items[i].vertex->getName() << " : ";
+			std::cout << items[i].vertex->getName() << ": ";
 			items[i].edges.forEach(printEdge);
 			std::cout << std::endl;
 		}
